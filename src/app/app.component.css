@@ -1,0 +1,24 @@
+#chart {
+	position: relative;
+	border: solid 2px red;
+	padding:5px;
+
+
+
+}
+
+.column {
+	display: inline-block;
+	width: 4px;
+	background-color: red;
+	margin-left: 1px;
+	height: 100px;
+
+}
+
+.panel {
+	margin: 10px;
+	background-color: #ccc;
+
+
+}
