@@ -1,24 +1,135 @@
 #chart {
 	position: relative;
-	border: solid 2px red;
-	padding:5px;
-
-
-
-}
-
-.column {
-	display: inline-block;
-	width: 4px;
-	background-color: red;
-	margin-left: 1px;
-	height: 100px;
+	width:96%;
+	margin-right:4%;
+	height: 80vh;
+	overflow-y:scroll;
+	padding-right:10px;
+	overflow-x:visible
 
 }
 
 .panel {
-	margin: 10px;
+	position: relative;
+	height: 170px;
+	width:95%;
+	z-index: 0;
+	margin-left:5%;
+}
+
+.wrapper {
+	position: relative;
+	bottom: 5px;
+	border-bottom: solid 1px #000;
+	border-left: solid 1px #000;
 	background-color: #ccc;
+	height: 140px;
+	z-index: 0;
+
+}
+
+.range-left {
+	float: left;
+	line-height: 0.7;
+}
+
+.range-right {
+	float: right;
+	
+}
+
+
+.column {
+	display: block;
+	position: absolute;
+	width: 0.24%;
+	background-color: red;
+	bottom: 0px;
+
+}
+
+.zoom-control {
+	float: left;
+
+}
+
+.zoom-control i{
+	font-size:32px;
+    margin-right: 10px;
+
+}
+
+.zoom-control i:hover{
+	cursor: pointer;
 
 
 }
+
+.scale-bar {
+	border-bottom: solid 2px black;
+	margin-top:20px;
+	width:8.5%;
+	text-align: center
+
+
+}
+
+
+.tool-bar {
+	width:90%;
+	margin-left:5%;
+
+}
+
+
+.yscale {
+	position: absolute;
+	left: -30px;
+	color:black;
+	z-index: 100;
+	height: 100px;
+	width:100px;
+
+}
+
+.tool-bar>div {
+	display: block;
+	float: left;
+
+}
+
+.tool-bar .scale-bar {
+	width: 100px;
+
+}
+
+.tool-bar .baseline {
+	width: 100px;
+	margin-left:30px;
+
+}
+
+.tool-bar .log-scale {
+	width: 110px;
+	margin-left: 30px;
+
+}
+
+.tool-bar .ymax {
+	width: 200px;
+	margin-left: 30px;
+
+}
+
+.tool-bar .sample-selection {
+	width: 150px;
+	margin-left: 30px;
+
+}
+
+.tool-bar .zoom-control {
+	float: right;
+	width: 100px;
+
+}
+
