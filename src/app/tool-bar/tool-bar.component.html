@@ -1,19 +1,19 @@
 <div class="tool-bar">
-  <div class='scale-bar'>{{scaleBar}}bp</div>
+  <div class='scale-bar'>{{scaleBar}}nts in each column</div>
   <div class="yaxis">
     <span>Y Max: </span>
     <mat-slider class="ymax"
-          [max]="6"
-          [min]="1"
+          [max]="9"
+          [min]="0"
           [step]="1"
           (change)="sliderChange()"
           [(ngModel)]="value">
     </mat-slider>
   </div>
   <div class="sample-selection">
-    <mat-select placeholder="Select samples" multiple>
-      <mat-option>Sample 1</mat-option>
-      <mat-option>Sample 2</mat-option>
+    <mat-select placeholder="Select samples" multiple [(value)]="selected" (selectionChange)="sampleSelectionChange()">
+      <mat-option value="sample1">Sample 1</mat-option>
+      <mat-option value="sample2">Sample 2</mat-option>
     </mat-select>
   </div>
   <div class='zoom-control'>

@@ -5,22 +5,23 @@
   </h1>
 </div>
 
-<app-tool-bar (eventEmitter)="onToolEvent($event)" #tooBar></app-tool-bar>
+<app-tool-bar (eventEmitter)="onToolEvent($event)" #tooBar  [scaleBar]="scaleBar"></app-tool-bar>
 
 <div id="chart">
-  <div class="panel" *ngFor="let panelData of DividedMergedData|async; let j=index" (click)="onPanelClick(j)">
+  <div class="panel" *ngFor="let panelData of DividedMergedData; let j=index" (click)="onPanelClick(j)">
     <div class="ymax"><span>{{tooBar.ymax}}</span></div>
 	  <div class="wrapper">
       <div class="column-overlap" *ngFor="let peakData of panelData.columns; let i=index" 
                                   [style.left]="i*0.4+'%'">
-    		  <div class="column1"  [style.height]="peakData[0]*140/tooBar.ymax+'px'" [style.zIndex]="5">
+    		  <div class="column1"  [style.height]="peakData[0]*140/tooBar.ymax+'px'" [style.zIndex]="5" *ngIf="tooBar.sample1">
     		  </div>
-          <div class="column2" [style.height]="peakData[1]*140/tooBar.ymax+'px'" [style.zIndex]="peakData[0]>peakData[1]?6:4">
+          <div class="column2" [style.height]="peakData[1]*140/tooBar.ymax+'px'" 
+                               [style.zIndex]="peakData[0]>peakData[1]?6:4"
+                                *ngIf="tooBar.sample2">
           </div>
       </div>
 		</div>
     <div class="range-left"><span>{{panelData.range.left}}</span></div>   
     <div class="range-right"><span>{{panelData.range.right}}</span></div>
-
   </div>
 </div>
