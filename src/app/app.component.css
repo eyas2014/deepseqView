@@ -25,6 +25,7 @@
 	background-color: #ccc;
 	height: 140px;
 	z-index: 0;
+	overflow: hidden;
 
 }
 
@@ -39,12 +40,24 @@
 }
 
 
-.column {
-	display: block;
+.column-overlap {
 	position: absolute;
 	width: 0.24%;
-	background-color: red;
 	bottom: 0px;
-
 }
+
+.column-overlap .column1 {
+	position: absolute;
+	width: 100%;
+	bottom: 0px;
+	background-color: cyan;
+}
+
+.column-overlap .column2 {
+	position: absolute;
+	width: 100%;
+	bottom: 0px;
+	background-color: orange
+}
+
 

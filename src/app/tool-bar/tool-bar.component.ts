@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
+import {DataService} from '../data.service';
 
 @Component({
   selector: 'app-tool-bar',
@@ -6,12 +7,26 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./tool-bar.component.css']
 })
 export class ToolBarComponent implements OnInit {
-  scaleBar="*bp";
-  baseLine="50";
+  @Output() eventEmitter= new EventEmitter();
 
-  constructor() { }
+  ymax=100;
+  value;
+  
 
-  ngOnInit() {
+  constructor(private dataService: DataService) { }
+
+  sliderChange(){
+  	this.ymax=100*Math.pow(10, this.value);
   }
 
+  ngOnInit() {
+  	this.scaleBar=this.dataService.scaleBar;
+  	console.log(this.scaleBar);
+  }
+
+  onClick(str){
+  	this.eventEmitter.emit(str);
+  	this.scaleBar=this.dataService.scaleBar;
+
+  }
 }

@@ -10,21 +10,31 @@ import {DataService} from './data.service';
 export class AppComponent {
   title = 'deepseqView';
 
-  DividedMergedData=[];
-  yscale;
+  DividedMergedData;
+  ymin;
+  ymax;
 
   constructor(private dataService: DataService){}
 
   ngOnInit(){
-    this.dataService.fetchData().subscribe(function(data){this.DividedMergedData=data});
-    this.yscale=this.dataService.yscale;
+    this.DividedMergedData=this.dataService.fetchData();
+    this.ymax=100;
   }
 
-  update(){
-    this.DividedMergedData=this.dataService.refetchData();
-    this.yscale=this.dataService.yscale;
+  onToolEvent($event){
+    switch ($event) {
+      case 'in':  this.DividedMergedData=this.dataService.zoomIn(0);
+                  break;
+      case 'out': this.DividedMergedData=this.dataService.zoomOut();
+                  break;
+      default:;
+    }
   }
 
+
+  onPanelClick(index){
+    this.DividedMergedData=this.dataService.zoomIn(index);
+  }
 
 
 }

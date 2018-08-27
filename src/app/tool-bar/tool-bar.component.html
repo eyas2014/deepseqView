@@ -1,25 +1,13 @@
 <div class="tool-bar">
   <div class='scale-bar'>{{scaleBar}}bp</div>
-  <div class="baseline">
-    <mat-select [(value)]="baseLine">
-      <mat-option value="0">Baseline: 0</mat-option>
-      <mat-option value="20">Baseline: 20</mat-option>
-      <mat-option value="50">Baseline: 50</mat-option>
-      <mat-option value="100">Baseline: 100</mat-option>
-    </mat-select>
-  </div>
-  <div class="log-scale">
-    <mat-checkbox>Log2 Scale</mat-checkbox>
-  </div>
-  <div class="ymax">
-    <span>Y Scale: </span>
-    <mat-slider
-          class="example-margin"
-          [max]="100"
-          [min]="0"
-          [step]="5"
-          [thumbLabel]="thumbLabel"
-          [(ngModel)]="yscaleValue">
+  <div class="yaxis">
+    <span>Y Max: </span>
+    <mat-slider class="ymax"
+          [max]="6"
+          [min]="1"
+          [step]="1"
+          (change)="sliderChange()"
+          [(ngModel)]="value">
     </mat-slider>
   </div>
   <div class="sample-selection">
@@ -29,7 +17,7 @@
     </mat-select>
   </div>
   <div class='zoom-control'>
-    <i class="material-icons" (click)="zoomIn(0)">zoom_in</i>
-    <i class="material-icons" (click)="zoomOut()">zoom_out</i>
+    <i class="material-icons" (click)="onClick('in')">zoom_in</i>
+    <i class="material-icons" (click)="onClick('out')">zoom_out</i>
   </div>
 </div>
