@@ -19,7 +19,7 @@ export class DataService {
   }
 
   getGenome(){
-    return this.http.get('/assets/ecoli.fna', {responseType: 'text'});
+    return this.http.get('/assets/ecoli.txt', {responseType: 'text'});
   }
 
 

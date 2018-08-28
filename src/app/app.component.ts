@@ -13,13 +13,13 @@ export class AppComponent {
 
   DividedMergedData;
   zoomStack=[];
-  chartStart;
+  chartStart=0;
   scaleBar; 
   range;
   zoomLevel=0;
   dataRaw;
   mouseOnPanel;
-  mouseOnCoumn;
+  mouseOnColumn;
 
   constructor(private dataService: DataService){}
 
@@ -69,7 +69,7 @@ export class AppComponent {
 
   enterColumn(index){
     const position=(this.mouseOnPanel*250+index)*this.scaleBar;
-    this.mouseOnColumn=position;
+    this.mouseOnColumn=this.chartStart+position;
 
   }
 

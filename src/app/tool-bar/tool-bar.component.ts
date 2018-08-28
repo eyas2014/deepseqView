@@ -24,7 +24,7 @@ export class ToolBarComponent implements OnInit {
   constructor(private dataService: DataService) { }
 
   sliderChange(){
-  	this.ymax=[100, 200, 500, 1000, 2000, 5000, 10000, 50000, 100000, 4000000][this.value];
+  	this.ymax=[100, 200, 500, 1000, 2000, 5000, 10000, 50000, 200000, 20000000][this.value];
   }
 
   ngOnInit(){

@@ -1,0 +1,10 @@
+{
+  "hosting": {
+    "public": "dist/deepseqView",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+}
