@@ -18,6 +18,10 @@ export class DataService {
               .pipe(map(this.toArray.bind(this)))
   }
 
+  getGenome(){
+    return this.http.get('/assets/ecoli.fna', {responseType: 'text'});
+  }
+
 
   toArray(a){
     let dataRaw=[];

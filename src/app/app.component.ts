@@ -18,6 +18,8 @@ export class AppComponent {
   range;
   zoomLevel=0;
   dataRaw;
+  mouseOnPanel;
+  mouseOnCoumn;
 
   constructor(private dataService: DataService){}
 
@@ -64,6 +66,21 @@ export class AppComponent {
       alert('maximum zoomOut...');
     }
   }
+
+  enterColumn(index){
+    const position=(this.mouseOnPanel*250+index)*this.scaleBar;
+    this.mouseOnColumn=position;
+
+  }
+
+  leaveColumn(){
+    this.mouseOnColumn=null
+  }
+
+  enterPanel(index){
+    this.mouseOnPanel=index;
+  }
+
 
 
   calculate(data){

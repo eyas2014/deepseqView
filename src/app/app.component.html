@@ -5,13 +5,15 @@
   </h1>
 </div>
 
-<app-tool-bar (eventEmitter)="onToolEvent($event)" #tooBar  [scaleBar]="scaleBar"></app-tool-bar>
+<app-tool-bar (eventEmitter)="onToolEvent($event)" #tooBar  [scaleBar]="scaleBar" [mouseOnColumn]="mouseOnColumn"></app-tool-bar>
 
 <div id="chart">
   <div class="panel" *ngFor="let panelData of DividedMergedData; let j=index" (click)="onPanelClick(j)">
     <div class="ymax"><span>{{tooBar.ymax}}</span></div>
-	  <div class="wrapper">
-      <div class="column-overlap" *ngFor="let peakData of panelData.columns; let i=index" 
+	  <div class="wrapper" (mouseenter)="enterPanel(j)">
+      <div class="column-overlap" *ngFor="let peakData of panelData.columns; let i=index"
+                                  (mouseenter)="enterColumn(i)"
+                                  (mouseleave)="leaveColumn()" 
                                   [style.left]="i*0.4+'%'">
     		  <div class="column1"  [style.height]="peakData[0]*140/tooBar.ymax+'px'" [style.zIndex]="5" *ngIf="tooBar.sample1">
     		  </div>

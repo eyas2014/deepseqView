@@ -1,6 +1,7 @@
 import { Component, OnInit, EventEmitter, Output, Input } from '@angular/core';
 import {DataService} from '../data.service';
 
+
 @Component({
   selector: 'app-tool-bar',
   templateUrl: './tool-bar.component.html',
@@ -10,9 +11,12 @@ export class ToolBarComponent implements OnInit {
 
   @Output() eventEmitter= new EventEmitter();
   @Input() scaleBar;
-  sample1: boolean=false;
-  sample2: boolean=false;
-  selected=[];
+  @Input() mouseOnColumn;
+  sample1: boolean=true;
+  sample2: boolean=true;
+  selected=['sample1', 'sample2'];
+  snapshot="";
+  genome='';
 
   ymax=100;
   value;
@@ -23,7 +27,13 @@ export class ToolBarComponent implements OnInit {
   	this.ymax=[100, 200, 500, 1000, 2000, 5000, 10000, 50000, 100000, 4000000][this.value];
   }
 
-  ngOnInit() {
+  ngOnInit(){
+      this.dataService.getGenome().subscribe(genome=>this.genome=genome);
+  }
+
+  ngOnChanges() {
+    if(this.mouseOnColumn)this.snapshot=this.genome.substring(this.mouseOnColumn, this.mouseOnColumn+32);
+    else this.snapshot=''
   }
 
   onClick(str){
