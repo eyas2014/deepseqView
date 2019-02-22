@@ -44,18 +44,10 @@
 	bottom: 0px;
 }
 
-.column-overlap .column1 {
+.column-overlap .column {
 	position: absolute;
 	width: 100%;
 	bottom: 0px;
-	background-color: cyan;
-}
-
-.column-overlap .column2 {
-	position: absolute;
-	width: 100%;
-	bottom: 0px;
-	background-color: orange
 }
 
 .ymax {

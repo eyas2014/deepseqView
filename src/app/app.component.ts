@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {DataService} from './data.service';
 import { map } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -10,22 +11,32 @@ import { map } from 'rxjs/operators';
 })
 export class AppComponent {
   title = 'deepseqView';
-
-  DividedMergedData;
-  zoomStack=[];
-  chartStart=0;
-  scaleBar; 
-  range;
-  zoomLevel=0;
-  dataRaw;
+  genome_size=4641000;
+  chart=[];
+  zoom=0;
+  chart_start=0;
+  column_width;
   mouseOnPanel;
   mouseOnColumn;
+  panel_ranges=[];
+  colors=["#00ff33","#ff0033","$33ffff", "#85f0e0","#33ff00"];
+  ZIndex=[];
+  zoom_stack=[];
 
-  constructor(private dataService: DataService){}
+  constructor(private http: HttpClient){}
 
   ngOnInit(){
-    this.dataRaw=this.dataService.fetchData();
-    this.dataRaw.pipe(map(this.calculate.bind(this))).subscribe(data=>this.DividedMergedData=data);
+    
+    this.column_width=6**(5-this.zoom);
+
+    this.updatePanelRange();
+
+    this.http.get("/api/chart?zoom=0&start=0", {responseType: "text"})
+         .subscribe(data=>{
+             this.chart=JSON.parse(data);
+             this.updateZIndex();
+         });
+
   }
 
   onToolEvent($event){
@@ -44,33 +55,42 @@ export class AppComponent {
   }
 
   zoomIn(index){
-    console.log(this.dataRaw);
-    if(this.zoomLevel<5){
-      this.zoomStack.push(this.chartStart);
-      this.zoomLevel++;
-      this.chartStart=this.range[index].left;
-      this.dataRaw.pipe(map(this.calculate.bind(this)))
-                         .subscribe(data=>this.DividedMergedData=data);
+    if(this.zoom<5){
+      this.zoom_stack.push(this.chart_start);
+      this.zoom++;
+      this.column_width=this.column_width/6;
+      this.chart_start=this.chart_start+index*this.column_width*1500;
+      this.http.get("/api/chart/"+this.zoom+"/"+this.chart_start, {responseType: "text"})
+               .subscribe(data=>{
+                  this.chart=JSON.parse(data);
+                  this.updateZIndex();
+                  this.updatePanelRange();
+                });
+
     }else {
       alert('maximum zoomIn...');
     }
   }
 
   zoomOut(){
-    if(this.zoomLevel>0){
-      this.chartStart=this.zoomStack.pop();
-      this.zoomLevel--;
-      this.dataRaw.pipe(map(this.calculate.bind(this)))
-                         .subscribe(data=>this.DividedMergedData=data);
+    if(this.zoom>0){
+      this.zoom--;
+      this.chart_start=this.zoom_stack.pop();
+      this.column_width=this.column_width*6;
+      this.http.get("/api/chart/"+this.zoom+"/"+this.chart_start, {responseType: "text"})
+         .subscribe(data=>{
+                      this.chart=JSON.parse(data);
+                      this.updateZIndex();
+                      this.updatePanelRange();
+                  });
+
     }else { 
       alert('maximum zoomOut...');
     }
   }
 
   enterColumn(index){
-    const position=(this.mouseOnPanel*250+index)*this.scaleBar;
-    this.mouseOnColumn=this.chartStart+position;
-
+    this.mouseOnColumn=(this.mouseOnPanel*250+index)*this.column_width;
   }
 
   leaveColumn(){
@@ -82,58 +102,37 @@ export class AppComponent {
   }
 
 
-
-  calculate(data){
-    var DividedMergedData=[];
-    var peakWidth=1*Math.pow(6, 5-this.zoomLevel);
-    this.scaleBar=peakWidth;
-    let range;
-    this.range=[];
-    this.scaleBar=peakWidth;
-    if(this.zoomLevel==0){
-      var numOfColumns=Math.ceil(4699674/peakWidth);
-      var MergedData=[], peakHeight;
-      for(let i=0; i<numOfColumns-1; i++) {
-          peakHeight=[];
-          for(let j=0; j<data.length; j++){
-            peakHeight.push(Math.max(...data[j].slice(i*peakWidth, (i+1)*peakWidth)));
-          }
-          MergedData.push(peakHeight);
-      }
-      peakHeight=[];
-      for(let j=0; j<data.length; j++)peakHeight.push(Math.max(...data[j].slice((numOfColumns-1)*peakWidth, data.length)));
-      MergedData.push(peakHeight);
-
-      var numOfPanels=Math.ceil(MergedData.length/250), panelData;
-      for(let i=0; i<numOfPanels-1; i++){
-        range={left: i*250*peakWidth,right: (i+1)*250*peakWidth-1};
-        panelData={columns: MergedData.slice(i*250, (i+1)*250), range};
-        DividedMergedData.push(panelData);
-        this.range.push(range);
-      };
-      range= {left: (numOfPanels-1)*250*peakWidth, right: 4699674};
-      panelData={columns: MergedData.slice((numOfPanels-1)*250, MergedData.length), range};
-      DividedMergedData.push(panelData);
-      this.range.push(range);
-    }else{
-      var MergedData=[];
-      let range;
-      for(let i=0; i<1500; i++) {
-        peakHeight=[];
-        for(let j=0; j<data.length; j++) 
-                peakHeight.push(Math.max(...data[j].slice(this.chartStart+i*peakWidth, this.chartStart+(i+1)*peakWidth)));
-        MergedData.push(peakHeight);
-      }
-
-      for(let i=0; i<6; i++){
-        range= {left: this.chartStart+i*250*peakWidth,right: this.chartStart+(i+1)*250*peakWidth-1};
-        panelData={columns: MergedData.slice(i*250, (i+1)*250), range};
-        DividedMergedData.push(panelData);
-        this.range.push(range);
+  updateZIndex(){
+    this.ZIndex=[];
+    for(var i=0; i<this.chart.length; i++){
+      this.ZIndex[i]=[];
+      for(var j=0; j<this.chart[i].length; j++){
+        this.ZIndex[i][j]=[];
+        for(var k=0; k<this.chart[i][j].length; k++){
+          var highest_column=Math.max(...this.chart[i][j]);
+          this.ZIndex[i][j][k]=highest_column==0?0:800*(highest_column-this.chart[i][j][k])/highest_column;
+        }
       }
     }
-    return DividedMergedData;
   }
 
+  updatePanelRange(){
+    var i=0;
+    var panel_cursor=this.chart_start;
+    do {
+      this.panel_ranges[i]={left: panel_cursor};
+      var panel_cursor=panel_cursor+this.column_width*250;
+      this.panel_ranges[i].right=panel_cursor<this.genome_size?panel_cursor-1:this.genome_size;
+      i++;
+    } while(panel_cursor<this.genome_size);
+
+
+  }
+
+  columnHeight(reads, selected, ymax){
+    if(selected) return reads*140/ymax;
+    else return 0;
+
+  }
 
 }

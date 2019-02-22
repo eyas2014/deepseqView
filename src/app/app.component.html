@@ -1,29 +1,33 @@
-<!--The content below is only a placeholder and can be replaced.-->
 <div style="text-align:center">
   <h1>
     Welcome to {{ title }}!
   </h1>
 </div>
-
-<app-tool-bar (eventEmitter)="onToolEvent($event)" #tooBar  [scaleBar]="scaleBar" [mouseOnColumn]="mouseOnColumn"></app-tool-bar>
-
+<app-tool-bar (eventEmitter)="onToolEvent($event)" #tooBar  [scaleBar]="column_width" [mouseOnColumn]="mouseOnColumn"></app-tool-bar>
 <div id="chart">
-  <div class="panel" *ngFor="let panelData of DividedMergedData; let j=index" (click)="onPanelClick(j)">
+  <div class="panel" *ngFor="let panel of chart; let j=index" (click)="onPanelClick(j)">
     <div class="ymax"><span>{{tooBar.ymax}}</span></div>
 	  <div class="wrapper" (mouseenter)="enterPanel(j)">
-      <div class="column-overlap" *ngFor="let peakData of panelData.columns; let i=index"
+      <div class="column-overlap" *ngFor="let columns of panel; let i=index"
                                   (mouseenter)="enterColumn(i)"
                                   (mouseleave)="leaveColumn()" 
                                   [style.left]="i*0.4+'%'">
-    		  <div class="column1"  [style.height]="peakData[0]*140/tooBar.ymax+'px'" [style.zIndex]="5" *ngIf="tooBar.sample1">
+
+
+
+
+    		  <div class="column"
+                *ngFor="let reads of columns; let n=index"  
+                [style.height]="columnHeight(reads, true, tooBar.ymax)+'px'" 
+                [style.zIndex]="ZIndex[j][i][n]" 
+                [style.backgroundColor]="colors[n]"
+          >
     		  </div>
-          <div class="column2" [style.height]="peakData[1]*140/tooBar.ymax+'px'" 
-                               [style.zIndex]="peakData[0]>peakData[1]?6:4"
-                                *ngIf="tooBar.sample2">
-          </div>
+
+
       </div>
 		</div>
-    <div class="range-left"><span>{{panelData.range.left}}</span></div>   
-    <div class="range-right"><span>{{panelData.range.right}}</span></div>
+    <div class="range-left"><span>{{panel_ranges[j].left}}</span></div>   
+    <div class="range-right"><span>{{panel_ranges[j].right}}</span></div>
   </div>
 </div>
