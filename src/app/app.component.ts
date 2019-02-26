@@ -17,11 +17,12 @@ export class AppComponent {
   chart_start=0;
   column_width;
   mouseOnPanel;
-  mouseOnColumn;
   panel_ranges=[];
   colors=["#00ff33","#ff0033","$33ffff", "#85f0e0","#33ff00"];
   ZIndex=[];
   zoom_stack=[];
+  hover_reads="";
+  hover_position="";
 
   constructor(private http: HttpClient){}
 
@@ -52,6 +53,8 @@ export class AppComponent {
 
   onPanelClick(index){
     this.zoomIn(index);
+    this.hover_position="";
+    this.hover_reads="";
   }
 
   zoomIn(index){
@@ -90,11 +93,19 @@ export class AppComponent {
   }
 
   enterColumn(index){
-    this.mouseOnColumn=(this.mouseOnPanel*250+index)*this.column_width;
+    let mouseOnColumn:number=this.chart_start+(this.mouseOnPanel*250+index)*this.column_width;
+    this.hover_position="genome position:"+mouseOnColumn;
+    this.hover_reads="";
+    let reads=this.chart[this.mouseOnPanel][index];
+    for(let i=0; i<reads.length; i++){
+      this.hover_reads=this.hover_reads+'sample'+(i+1)+":"+reads[i]+"  ";
+    }
+
   }
 
   leaveColumn(){
-    this.mouseOnColumn=null
+    this.hover_position="";
+    this.hover_reads="";
   }
 
   enterPanel(index){
@@ -134,5 +145,18 @@ export class AppComponent {
     else return 0;
 
   }
+
+  shiftLeft(){
+
+
+  }
+
+  shiftRight(){
+
+
+  
+  }
+
+
 
 }

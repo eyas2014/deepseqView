@@ -7,7 +7,7 @@
           [min]="0"
           [step]="1"
           (change)="sliderChange()"
-          [(ngModel)]="value">
+          [(ngModel)]="slider_value">
     </mat-slider>
   </div>
   <div class="sample-selection">
@@ -17,7 +17,10 @@
     </mat-select>
   </div>
   <div class="SS_label">Snapshot:</div>
-  <div class="SS_content"><span> {{snapshot}} {{mouseOnColumn}}  </span></div>
+  <div class="SS_content">
+    <span> {{hover_position}}</span><br />
+    <span> {{hover_reads}}</span>
+  </div>
   <div class='zoom-control'>
     <i class="material-icons" (click)="onClick('in')">zoom_in</i>
     <i class="material-icons" (click)="onClick('out')">zoom_out</i>
