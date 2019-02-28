@@ -18,11 +18,18 @@
   </div>
   <div class="SS_label">Snapshot:</div>
   <div class="SS_content">
-    <span> {{hover_position}}</span><br />
-    <span> {{hover_reads}}</span>
+    
+    <span> position: {{hover_content.position}}</span>
+    <br />
+    <span> {{hover_content.data}}</span>
+  </div>
+  <div class='shift-control'>
+    <div class="shift-left" (click)="shift('left')"></div>
+    <div class="shift-right" (click)="shift('right')"></div>
+
   </div>
   <div class='zoom-control'>
-    <i class="material-icons" (click)="onClick('in')">zoom_in</i>
-    <i class="material-icons" (click)="onClick('out')">zoom_out</i>
+    <i class="material-icons" (click)="zoom('in')">zoom_in</i>
+    <i class="material-icons" (click)="zoom('out')">zoom_out</i>
   </div>
 </div>

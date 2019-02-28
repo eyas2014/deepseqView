@@ -46,6 +46,7 @@ import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { ToolBarComponent } from './tool-bar/tool-bar.component';
+import { ChartComponent } from './chart/chart.component';
 
 
 @NgModule({
@@ -87,15 +88,15 @@ import { ToolBarComponent } from './tool-bar/tool-bar.component';
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-  ],
-  declarations: []
+  ]
 })
 export class DemoMaterialModule {}
 
 @NgModule({
   declarations: [
     AppComponent,
-    ToolBarComponent
+    ToolBarComponent,
+    ChartComponent
   ],
   imports: [
     BrowserModule,

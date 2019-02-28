@@ -3,32 +3,23 @@
     Welcome to {{ title }}!
   </h1>
 </div>
-<app-tool-bar (eventEmitter)="onToolEvent($event)" #tooBar  
+<app-tool-bar (eventEmitter)="onToolEvent($event)"
               [scaleBar]="column_width"
-              [hover_reads]="hover_reads"
-              [hover_position]="hover_position">
-                
+              [hover_content]="hover_content"
+>
 </app-tool-bar>
-<div id="chart">
-  <div class="panel" *ngFor="let panel of chart; let j=index" (click)="onPanelClick(j)">
-    <div class="ymax"><span>{{tooBar.ymax}}</span></div>
-	  <div class="wrapper" (mouseenter)="enterPanel(j)">
-      <div class="column-overlap" *ngFor="let columns of panel; let i=index"
-                                  (mouseenter)="enterColumn(i)"
-                                  (mouseleave)="leaveColumn()" 
-                                  [style.left]="i*0.4+'%'">
-    		  <div class="column"
-                *ngFor="let reads of columns; let n=index"  
-                [style.height]="columnHeight(reads, tooBar.isShow[n], tooBar.ymax)+'px'" 
-                [style.zIndex]="ZIndex[j][i][n]" 
-                [style.backgroundColor]="colors[n]"
-          >
-    		  </div>
 
 
-      </div>
-		</div>
-    <div class="range-left"><span>{{panel_ranges[j].left}}</span></div>   
-    <div class="range-right"><span>{{panel_ranges[j].right}}</span></div>
-  </div>
-</div>
+
+<app-chart [chart_data]="chart_data" 
+            [chart_start]="chart_start+column_shift" 
+            [zoom]="zoom" 
+            [shifting]="shifting" 
+            [loading]="loading"
+            [ymax]="ymax"
+            [selected]="selected"
+            (eventEmitter)="onChartEvent($event)"
+>
+</app-chart>
+
+

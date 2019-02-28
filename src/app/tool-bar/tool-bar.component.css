@@ -1,19 +1,39 @@
-.zoom-control {
-	float: left;
-
-}
-
 .zoom-control i{
 	font-size:32px;
     margin-right: 10px;
     line-height: 50px;
-
 }
 
 .zoom-control i:hover{
 	cursor: pointer;
+}
 
+.shift-control {
+	margin-left:20px;
+	margin-top:10px;
+	float:left;
+}
 
+.shift-control .shift-left{
+	float:left;
+	height:30px;
+	width: 60px;
+	background-image: url('/assets/back_forward_arrow.jpg');
+	background-size: 200% 100%;
+
+}
+
+.shift-control .shift-right{
+	float:left;
+	height:30px;
+	width: 60px;
+	background-image: url('/assets/back_forward_arrow.jpg');
+	background-size: 200% 100%;
+	background-position:-60px, 0px;
+}
+
+.shift-control>div:hover{
+	cursor:pointer;
 }
 
 .scale-bar {

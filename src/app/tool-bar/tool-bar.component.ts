@@ -9,29 +9,30 @@ import {DataService} from '../data.service';
 })
 export class ToolBarComponent implements OnInit {
   @Input() scaleBar;
-  @Input() hover_position;
-  @Input() hover_reads;
+  @Input() hover_content;
   @Output() eventEmitter= new EventEmitter();
   
   isShow=[true, true];
   selected=['sample1', 'sample2'];
   sample_list=['sample1', 'sample2'];
   slider_value=2;
-  ymax=100;
   
   constructor(private dataService: DataService) { }
 
+  ngOnInit(){}
+
   sliderChange(){
-  	this.ymax=[10, 50, 100, 200, 500, 1000, 2000, 5000, 10000][this.slider_value];
-  }
-
-  ngOnInit(){
-
+  	let ymax=[10, 50, 100, 200, 500, 1000, 2000, 5000, 10000][this.slider_value];
+    this.eventEmitter.emit({type:"change_ymax", ymax:ymax});
   }
 
  
-  onClick(str){
-  	this.eventEmitter.emit(str);
+  zoom(action){
+  	this.eventEmitter.emit({type:action});
+  }
+
+  shift(action){
+    this.eventEmitter.emit({type:action});
   }
 
   sampleSelectionChange(){
@@ -39,5 +40,7 @@ export class ToolBarComponent implements OnInit {
     	if(this.selected.includes(this.sample_list[i]))this.isShow[i]=true;
     	else this.isShow[i]=false;
     }
+    this.eventEmitter.emit({type:"select_sample", selected: this.isShow});
   }
+
 }

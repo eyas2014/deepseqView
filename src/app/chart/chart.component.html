@@ -1,0 +1,27 @@
+<div id="chart">
+	<div class="preloader" *ngIf="loading">
+		<img src="assets/preloading.gif">
+	</div>
+	<div *ngIf="!loading">
+		<div class="panel" *ngFor="let panel of chart; let j=index" (click)="onPanelClick(j)">
+		    <div class="ymax"><span>{{ymax}}</span></div>
+			<div class="wrapper" (mouseenter)="enterPanel(j)">
+				<img class="hourglass-start" *ngIf="shifting=='right'&&j==0" src="assets/giphy2.gif">
+		    	<div class="column-overlap" *ngFor="let columns of panel; let i=index"
+		                                  (mouseenter)="enterColumn(i)"
+		                                  (mouseleave)="leaveColumn()" 
+		                                  [style.left]="i*0.4+'%'">
+		    		<div class="column"
+		                *ngFor="let reads of columns; let n=index"  
+		                [style.height]="columnHeight(reads, selected[n], ymax)+'px'" 
+		                [style.zIndex]="ZIndexes[j*250+i][n]" 
+		                [style.backgroundColor]="colors[n]">
+		    		</div>
+		    	</div>
+		    	<img class="hourglass-end" *ngIf="shifting=='left'&&j==chart.length-1" src="assets/giphy2.gif">
+			</div>
+		    <div class="range-left"><span>{{panel_ranges[j].left}}</span></div>   
+		    <div class="range-right"><span>{{panel_ranges[j].right}}</span></div>
+		</div>
+	</div>
+</div>

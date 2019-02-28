@@ -1,0 +1,79 @@
+#chart {
+	position: relative;
+	width:96%;
+	margin-right:4%;
+	height: 80vh;
+	overflow-y:scroll;
+	padding-right:10px;
+	overflow-x:visible
+
+}
+
+.preloader img{
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+
+}
+
+.panel {
+	position: relative;
+	height: 180px;
+	z-index: 0
+}
+
+.wrapper {
+	margin-left: 5%;
+	position: relative;
+	border-bottom: solid 1px #000;
+	border-left: solid 1px #000;
+	background-color: #ccc;
+	height: 140px;
+	z-index: 0;
+	overflow: hidden;
+
+}
+
+.range-left {
+	float: left;
+	margin-left: 5%
+}
+
+.range-right {
+	float: right;
+	
+}
+
+
+.column-overlap {
+	position: absolute;
+	width: 0.24%;
+	bottom: 0px;
+}
+
+.column-overlap .column {
+	position: absolute;
+	width: 100%;
+	bottom: 0px;
+}
+
+.ymax {
+	display: inline-block;
+	float:left;
+	width:5%;
+	text-align:right;
+}
+
+.hourglass-start {
+	margin-top:50px;
+	width:30px;
+	height:30px;
+	float: left;
+}
+
+.hourglass-end{
+	margin-top:50px;
+	width:30px;
+	height:30px;
+	float: right;
+}
